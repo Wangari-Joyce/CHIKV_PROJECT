@@ -1,0 +1,23 @@
+
+# downloading full genome from genebank
+# i is the accession number in the file containing all 786 accession numbers
+# the accesion number file was downloaded from genbank accession list
+for i in $(cat 786_accession_numbers_chikv.txt)
+do
+
+esearch -db nucleotide -query $i | efetch -format fasta >> all_chikv_genome.fasta
+done
+
+
+
+
+
+
+# downloading dated sequences  
+# after grepping all the accession numbers with the dates we used that accesion number file to download all the sequences with the dates from genbank
+for i in $(cat dated_324_accessions_chikv.txt)
+do
+
+esearch -db nucleotide -query $i | efetch -format fasta >> dated_324_chikvseqs.fasta
+done
+
