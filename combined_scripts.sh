@@ -100,4 +100,4 @@ sudo apt-get install -y  raxml
 
 ## running raxml  
 raxmlHPC -d -b 3 -p 70 -#500 -s reference_dataset.phy -m GTRGAMMA -n treefile -w /home/icipe/Allan/Project1/data/Alignment/Results
-# visualized tree using itol and tempest
+# visualized tree using itol 
