@@ -8,8 +8,7 @@
 7. *Test for recombination -we did not do this*
 8. Run jmodeltest to determine thr best model of nucleotide substitution
 9. Create maximum likehood trees with phyml and raxml to be able to see the various lineages and locate the lineage for our Mandera sequence
-10. Locate the Mandera sequences in ECSA lineage
-11. Filter again to remove those with the same sampling location and time
+10. Locate the Mandera sequence lineage
 12. Use only ECSA lineage as reference data set
 13. Run the downsampled to data set on Beast
 
@@ -157,6 +156,73 @@
  
  ### *PRESENTATION* DATE 26/11/2021
  - We decided to continue with BEAST with our trial sample n=27
+ 
+
+#!/bin/bash 
+
+
+#Install beast executables
+wget https://github.com/beast-dev/beast-mcmc/releases/download/v1.10.4/BEASTv1.10.4.tgz
+
+# Extract files 
+tar -zcvf BEASTv1.10.4.tgz
+
+# Move to the Beast directory  then to the /bin  
+cd BEASTv1.10.4/bin
+
+# Install beagle library 
+# Prepare prerequesites
+sudo apt-get install gcc 
+sudo apt-get install cmake
+sudo apt-get install autoconf
+sudo apt-get install automake
+sudo apt-get install libtool
+sudo apt-get install subversion
+sudo apt-get install pkg-config
+
+# Compile and install beagle library from source code repository 
+git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
+# moves to /beagle-lib directory
+cd beagle-lib 
+# create a directory /build
+mkdir build
+# move into the /build directory
+cd build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=$HOME .. 
+make install
+
+ The project required us to downsample our dataset and only use those of ESCA lineage
+# We downloaded the global chikungunya dataset from a paper"Co-Circulation of Two Independent Clades and Persistence of CHIKV-ECSA Genotype d>
+# The paper had been published in 2020 so were confident that the information was up to date
+# The data had been downloaded from VIRUS PATHOGEN RESOURCE (ViPR)
+# First we confirmed whether our dataset was in their dataset so we got the accession numbers from the paper manually 767 of them
+# Our original dataset that we had pulled and cleaned was 293 sequences including the 10 mandera sequences
+#combining the 767 accesion numbers with the 293
+cat 293_clean_accessions >> acc_767.txt
+
+wc -l acc_767.txt
+# This were 1060
+
+sort acc_767.txt | uniq -d | wc -l
+# This were 269
+sort acc_767.txt | uniq -d > 269_accession.txt
+# We decided to use the 269 because We knew the lineage, the country and the date of collection of each sequence which could be easily access>
+ #downloading the 269 sequences
+for i in $(cat 269_accession.txt)
+do
+esearch -db nucleotide -query $i |efetch -format -fasta >> 269_seqs.fasta
+done
+
+Aligning the sequences with MAFFT
+
+#We then created a neighbour joining tree with MEGA
+#We loaded the tree in TempEst
+#visualising the Tree with TempEst showed that the Mandera sequences clustered together with sequences from ECSA
+We decided to Infer maximum likehood tree with IQ tree because it could accept the Fasta format.
+iqtree -s aln_dataset.fasta -m GTR+G+I -st DNA
+
+We needed to use the fasta format as the phylip format  in phyml and raxml was truncating our identifiers which had dates
+However the iqtree tool still truncated the identifiers
 
 
 
