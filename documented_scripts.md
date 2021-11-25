@@ -240,13 +240,13 @@ Aligning the sequences with MAFFT
 - We then created a neighbour joining tree with MEGA
 - We loaded the tree in TempEst
 - visualising the Tree with TempEst showed that the Mandera sequences clustered together with sequences from ECSA
-![image from tempest]()https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/tempest_tree_lineages.png?raw=true
-[](url)
+![image from tempest](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/tempest_tree_lineages.png?raw=true)
+
 - We decided to Infer maximum likehood tree with IQ tree because it could accept the Fasta format as input
     
         iqtree -s aln_dataset.fasta -m GTR+G+I -st DNA
     
-[itol image for the iqtree](url)
+[itol image for the iqtree](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/itol_iqtree.png?raw=true)
 - We needed to use the fasta format as the phylip format  in phyml and raxml was truncating our identifiers which had dates
 - However the iqtree tool still truncated the identifiers
 
