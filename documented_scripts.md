@@ -49,7 +49,7 @@ we first created an accession list file
     do
     esearch -db nucleotide -query $i | efetch -format fasta >> all_chikv_genome.fasta
     done
-
+**output**  [all_chikv_genome.fasta]()https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/all_chikv_genome.fasta
 # filtered our sequences with dates on the identifiers
 # statrting with the '19..' sequences followed by '20..'
 
