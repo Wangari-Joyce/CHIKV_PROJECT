@@ -240,7 +240,8 @@ Aligning the sequences with MAFFT
 - We then created a neighbour joining tree with MEGA
 - We loaded the tree in TempEst
 - visualising the Tree with TempEst showed that the Mandera sequences clustered together with sequences from ECSA
-[image from tempest](url)
+![image from tempest]()https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/tempest_tree_lineages.png?raw=true
+[](url)
 - We decided to Infer maximum likehood tree with IQ tree because it could accept the Fasta format as input
     
         iqtree -s aln_dataset.fasta -m GTR+G+I -st DNA
