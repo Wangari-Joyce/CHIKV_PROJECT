@@ -152,7 +152,7 @@
     ## running raxml  
     raxmlHPC -d -b 3 -p 70 -#500 -s reference_dataset.phy -m GTRGAMMA -n treefile -w /home/icipe/Allan/Project1/data/Alignment/Results
     
- -  We visualized the tree using itol 
+  [We visualized the tree using itol](https://files.slack.com/files-pri/T01AW0MEK6G-F02NMSCDQ59/27_seq_raxml_tree.png) 
  
  ### *PRESENTATION* DATE 26/11/2021
  
