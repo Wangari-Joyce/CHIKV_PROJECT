@@ -15,16 +15,17 @@
 
 
 ## 1. Downloading sequences from genbank
-We first retrieved the Mandera-Kenya sequences and the full genomes from genbank
+- We first retrieved the Mandera-Kenya sequences and the full genomes from genbank
 
 ### a. Creating an accession list file for Mandera sequences
-we first created an accession list file 
-    
-    #!/usr/bin/bash
-    # Retrieving Mandera sequences data from GenBank
-    # Creating a list of accession numbers 
-    echo -e MH423{797..811}"\n" | sed 's/ //g' > mandera_chikv.txt 
-**output:**  [10 Mandera sequences accession numbers](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
+- we first created an accession list file 
+
+      #!/usr/bin/bash
+      # Retrieving Mandera sequences data from GenBank
+      # Creating a list of accession numbers 
+      echo -e MH423{797..811}"\n" | sed 's/ //g' > mandera_chikv.txt 
+      
+**output:**  [10 Mandera sequences accession numbers](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/mandera_chikv_accession_numbers.txt)
 
 ### b. Installing edirect utilities so as to be able to download sequences from genbank
     #Install edirect utilities
@@ -35,41 +36,46 @@ we first created an accession list file
     echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
 
 ### c. Looping through  the accession list using edirect fuctionality
-    # retrive sequences 
+    # retrieve sequences 
     for i in $(cat mandera_chikv.txt)
     do
-    esearch -db nucleotide -query $i | efetch -format fasta >> chikv_combined_seqs.fasta
+    esearch -db nucleotide -query $i | efetch -format fasta >> complete_genome_10seqs_mandera_dated.fasta
     done
-**output:**  [10_mandera_sequences](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
+**output:**  [10_mandera_sequences.fasta](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
 
-# d. Retrieving global sequence data from GenBank 
- We used a pre-generated accession list from genbank
+### d. Retrieving global sequence data from GenBank 
+ - We used a pre-generated accession list from genbank
 
     for i in $(cat 786_accession_list.txt)
     do
     esearch -db nucleotide -query $i | efetch -format fasta >> all_chikv_genome.fasta
     done
-**output**  [all_chikv_genome.fasta]()https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/all_chikv_genome.fasta
-# filtered our sequences with dates on the identifiers
-# statrting with the '19..' sequences followed by '20..'
+**output:**  [all_chikv_genome.fasta](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/all_chikv_genome.fasta)
+## 2. Cleaning the data
+### a. Filtering out samples with collection dates
+- We needed to retain only the sequences that had dates
 
-grep ">" all_chikv_genome.fasta | grep -w "[1][9][0-9][0-9]," | head -n 6  > 19s_identifiers.txt
+- We filtered our sequences with dates on the identifiers,starting with the '19..' sequences followed by '20..'
 
-grep ">" all_chikv_genome.fasta | grep -w "[2][0][0-9][0-9]"  > 20s_identifiers.txt
+- The output contained an accession list for all sequences that had dates n=324
+  
+    grep ">" all_chikv_genome.fasta | grep -w "[1][9][0-9][0-9]," | head -n 6  > 19s_identifiers.txt
+    grep ">" all_chikv_genome.fasta | grep -w "[2][0][0-9][0-9]"  > 20s_identifiers.txt
+      # Creating a combined accession list
+      cut -f 1 19s_identifiers.txt > Accessions.txt
+      cut -f 1 20s_identifiers.txt >> Accessions.txt
+    
+**Output:**[324 sequences accession list](url)
+### b. Retrieving  the sequences that had dates
+    #Retrieving only filtered sequences
+    # we used accession list generated above = 324 sequences
+    for i in $(cat Accessions.txt)
+    do
+    esearch -db nucleotide -query $i | efetch -format fasta >> dataset1.fasta
+    done
 
-# Create a combined accession list
-cut -f 1 19s_identifiers.txt > Accessions.txt
-cut -f 1 20s_identifiers.txt >> Accessions.txt
-
-# Retrieve filtered sequences
-# use accession list generated above = 324 sequences
-for i in $(cat Accessions.txt)
-do
-esearch -db nucleotide -query $i | efetch -format fasta >> dataset1.fasta
-done
-
-# Multiple alignment using MAFFT
-mafft  --auto --phylipout --reorder dataset1.fasta > aligned_dataset1.fasta
+## 3. Multiple sequence alignment using MAFFT
+    mafft  --auto --phylipout --reorder dataset1.fasta > aligned_dataset1.fasta
 
 # created a neighbour joining tree using MEGAX GUI using default parameters
 #TempEst input is  tree.
