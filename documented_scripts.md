@@ -154,3 +154,10 @@
     raxmlHPC -d -b 3 -p 70 -#500 -s reference_dataset.phy -m GTRGAMMA -n treefile -w /home/icipe/Allan/Project1/data/Alignment/Results
     
  - visualized tree using itol 
+ 
+ ### *PRESENTATION* DATE 26/11/2021
+ - We decided to continue with BEAST with our trial sample n=27
+
+
+
+ 
