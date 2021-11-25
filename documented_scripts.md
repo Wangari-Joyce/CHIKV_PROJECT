@@ -83,12 +83,13 @@
 ## 3. Multiple sequence alignment using MAFFT
     mafft  --auto --phylipout --reorder dataset1.fasta > aligned_dataset1.fasta
 **output:** [alignment_file.fasta](url)
-## Neighbour joining tree
-- We created a neighbour joining tree using MEGAX GUI using default parameters
-- The input of TempEst is tree.
 
 ## 4. Running TempEst
-    # Installing TempEst
+### a. Neighbour Joining Tree
+- We created a neighbour joining tree using MEGAX GUI using default parameters
+- The input of TempEst is a tree.
+- 
+### b. Installing TempEst
     
     sudo apt-get install -y tempest
     
