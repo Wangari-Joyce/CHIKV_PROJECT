@@ -1,24 +1,43 @@
-We first retrieved the Mandera-Kenya sequences from genbank
+# WHAT WE NEEDED TO DO
+1. Download full CHIKV genome sequences from genbank
+2. Align the sequences
+3. Create a neighbour joining tree
+4. Load the tree on Tempest to use the results to filter our dataset
+5. remove all sequences without sampling location and dates, those with long stretches of Ns and all outliers
+6. Align the sequences together with the Mandera sequences
+7. *Test for recombination -we did not do this*
+8. Run jmodeltest to determine thr best model of nucleotide substitution
+9. Create maximum likehood trees with phyml and raxml to be able to see the various lineages and locate the lineage for our Mandera sequence
+10. Locate the Mandera sequences in ECSA lineage
+11. Filter again to remove those with the same sampling location and time
+12. Use only ECSA lineage as reference data set
+13. Run the downsampled to data set on Beast
+
+
+## 1. Downloading sequences from genbank
+We first retrieved the Mandera-Kenya sequences and the full genomes from genbank
+we created an accession list file first
     
     #!/usr/bin/bash
     # Retrieving Mandera sequences data from GenBank
     # Creating a list of accession numbers 
     echo -e MH423{797..811}"\n" | sed 's/ //g' > mandera_chikv.txt 
-    output
+**output:**  [10_mandera_sequences](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
 
-# Install edirect utilities
-sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
+### Installing edirect utilities so as to be able to download sequences from genbank
+    #Install edirect utilities
+    sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
+    
+    #Exporting PATH
+    
+    echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
 
-# Export PATH with the following command prompt
-
-echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
-
-# Loop through accession list using edirect fuctionality
-# retrive sequences 
-for i in $(cat mandera_chikv.txt)
-do
-esearch -db nucleotide -query $i | efetch -format fasta >> chikv_combined_seqs.fasta
-done
+### Looping through  the accession list using edirect fuctionality
+    # retrive sequences 
+    for i in $(cat mandera_chikv.txt)
+    do
+    esearch -db nucleotide -query $i | efetch -format fasta >> chikv_combined_seqs.fasta
+    done
 
 # Retrieve global sequence data from GenBank 
 # with pre-generated accession list from genbank
