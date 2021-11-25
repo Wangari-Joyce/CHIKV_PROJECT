@@ -1,6 +1,10 @@
 # CHIKV_PROJECT
 Global outbreaks and origin of a chikungunya virus variant carrying mutations which may increase fitness for Aedes aegyptyi:Revekations from the 2016 Mandera Outbreak
 
+## COLLBORATORS
+1. Allan Okeyo
+2. Joyce Wangari
+
 ## COLLABORATORS OBJECTIVES
 To reproduce [this paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6493958/) with an aim of getting hands on experience with while working with different bioinformatic tools specifically phylogenetic tools in the command line and also get familiar with command line languages such as bash and other programming languages such as python.
 
