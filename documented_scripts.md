@@ -3,7 +3,7 @@
 2. Align the sequences
 3. Create a neighbour joining tree
 4. Load the tree on Tempest to use the results to filter our dataset
-5. remove all sequences without sampling location and dates, those with long stretches of Ns and all outliers
+5. Remove all sequences without sampling location and dates, those with long stretches of Ns and all outliers
 6. Align the sequences together with the Mandera sequences
 7. *Test for recombination -we did not do this*
 8. Run jmodeltest to determine thr best model of nucleotide substitution
@@ -16,15 +16,17 @@
 
 ## 1. Downloading sequences from genbank
 We first retrieved the Mandera-Kenya sequences and the full genomes from genbank
-we created an accession list file first
+
+### a. Creating an accession list file for Mandera sequences
+we first created an accession list file 
     
     #!/usr/bin/bash
     # Retrieving Mandera sequences data from GenBank
     # Creating a list of accession numbers 
     echo -e MH423{797..811}"\n" | sed 's/ //g' > mandera_chikv.txt 
-**output:**  [10_mandera_sequences](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
+**output:**  [10 Mandera sequences accession numbers](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
 
-### Installing edirect utilities so as to be able to download sequences from genbank
+### b. Installing edirect utilities so as to be able to download sequences from genbank
     #Install edirect utilities
     sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
     
@@ -32,20 +34,21 @@ we created an accession list file first
     
     echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
 
-### Looping through  the accession list using edirect fuctionality
+### c. Looping through  the accession list using edirect fuctionality
     # retrive sequences 
     for i in $(cat mandera_chikv.txt)
     do
     esearch -db nucleotide -query $i | efetch -format fasta >> chikv_combined_seqs.fasta
     done
+**output:**  [10_mandera_sequences](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/complete_genome_10seqs_mandera_dated.fasta)
 
-# Retrieve global sequence data from GenBank 
-# with pre-generated accession list from genbank
+# d. Retrieving global sequence data from GenBank 
+ We used a pre-generated accession list from genbank
 
-for i in $(cat clean_accession_list.txt)
-do
-esearch -db nucleotide -query $i | efetch -format fasta >> refence_dataset.fasta
-done
+    for i in $(cat 786_accession_list.txt)
+    do
+    esearch -db nucleotide -query $i | efetch -format fasta >> all_chikv_genome.fasta
+    done
 
 # filtered our sequences with dates on the identifiers
 # statrting with the '19..' sequences followed by '20..'
