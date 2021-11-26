@@ -286,4 +286,4 @@ Beast allows for input file generated from beauti
 ![beast_summarized tree](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/beast_treeannotator_40_dataset.png)
 
  - The tree from the study
- [tree from the study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6493958/bin/tpmd180980f1.jpg)
+![tree from the study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6493958/bin/tpmd180980f1.jpg)
