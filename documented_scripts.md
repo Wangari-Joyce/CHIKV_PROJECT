@@ -51,7 +51,9 @@
        esearch -db nucleotide -query $i | efetch -format fasta >> all_chikv_genome.fasta
        done
 **output:**  [all_chikv_genome.fasta](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/all_chikv_genome.fasta)
+
 ## 2. Cleaning the data
+
 ### a. Filtering out samples with collection dates
 - We needed to retain only the sequences that had dates
 
@@ -106,6 +108,7 @@
         cat complete_genome_10seqs_mandera_dated.fasta >> clean_reference_dataset
  
 ## 5. Inferring Maximum Likehood Trees
+
 ### a. Installing jmodeltest
 - First we installed jmodeltest to get the best substitution model
     sudo apt install jmodeltest
@@ -114,6 +117,7 @@
 - We proceeded with phyml and used substitution model GTR+G+I as in the paper
 ### b. Aligning with mafft and converting to  phylip format
     mafft  --auto --phylipout --reorder aligned_full_dataset.fasta > aligned_full_dataset.phylip
+    
 - removed gaps with jalview GUI
 ### c. Installing phyml
     sudo apt-get install -y phyml
@@ -167,12 +171,14 @@
     #Install beast executables
     wget https://github.com/beast-dev/beast-mcmc/releases/download/v1.10.4/BEASTv1.10.4.tgz
 
-- Extracting the files 
-tar -zcvf BEASTv1.10.4.tgz
+- Extracting the files    
 
-    
-    #Move to the Beast directory  then to the /bin  
-    cd BEASTv1.10.4/bin
+      tar -zcvf BEASTv1.10.4.tgz 
+
+#Move to the Beast directory  then to the /bin    
+
+	cd BEASTv1.10.4/bin
+   
         
 ### b.Installing beagle library
 
@@ -185,8 +191,7 @@ tar -zcvf BEASTv1.10.4.tgz
     sudo apt-get install libtool
     sudo apt-get install subversion
     sudo apt-get install pkg-config
-
-### c. Compiling and installing beagle library from source code repository 
+  
     git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
     
     #moving to /beagle-lib directory
@@ -201,8 +206,23 @@ tar -zcvf BEASTv1.10.4.tgz
     
     cmake -DCMAKE_INSTALL_PREFIX:PATH=$HOME .. 
     make install
+    # export PATH
+    export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH 
+    # Test 
+    make test
 
-## BACK TO THE BIG DATASET
+### Running beast 
+	 beauti 
+![beauti_window](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/beauti-window.png)
+- Beauti allows for setting parameters and creating a beast file
+
+### Running beast 
+	 beast 
+![beast_window](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/beast-window.png)
+
+
+
+### To the bigger dataset
 - From out dataset we needed to identify the lineage of the Mandera Sequences
 - We downloaded the global chikungunya dataset from a paper["Co-Circulation of Two Independent Clades and Persistence of CHIKV-ECSA Genotype during Epidemic waves in Rio de Janeiro, South East Brazil"](https://www.mdpi.com/2076-0817/9/12/984/htm)
 
@@ -235,21 +255,34 @@ tar -zcvf BEASTv1.10.4.tgz
 
 
 
-Aligning the sequences with MAFFT
+Aligning the sequences with MAFFT    
 
+	mafft  --auto --reorder 269_seqs.fasta > aligned_269_seqs.fasta
+	
 - We then created a neighbour joining tree with MEGA
 - We loaded the tree in TempEst
-- visualising the Tree with TempEst showed that the Mandera sequences clustered together with sequences from ECSA
+- Visualising the Tree with TempEst showed that the Mandera sequences clustered together with sequences from ECSA
 ![image from tempest](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/tempest_tree_lineages.png?raw=true)
 
 - We decided to Infer maximum likehood tree with IQ tree because it could accept the Fasta format as input
     
         iqtree -s aln_dataset.fasta -m GTR+G+I -st DNA
     
-[itol image for the iqtree](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/itol_iqtree.png?raw=true)
+![itol image for the iqtree](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/itol_iqtree.png?raw=true)
 - We needed to use the fasta format as the phylip format  in phyml and raxml was truncating our identifiers which had dates
 - However the iqtree tool still truncated the identifiers
 
+### Downsampling 
+- From the two above tree images, we were able to identify the lineages based on the clusters formed
+- Picked only ECSA lineages using the exclusion creteria used in the initial workflow
+- - This is an ouput of raxml run on tempest
 
+![raxml_tree_file](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/27_seq_raxml_tree.png)
+
+Beast allows for input file generated from beauti
+
+- Below is an output tree from beast, summarized by treeannotator, run on tempest
+- For the downsampled dataset containing only sequences of ECSA lineage
+![beast_summarized tree](https://github.com/WANGARIJOYCE/CHIKV_PROJECT/blob/main/beast_treeannotator_40_dataset.png)
 
  
